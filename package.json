@@ -1,0 +1,30 @@
+{
+  "name": "towerdefense",
+  "version": "0.0.1",
+  "description": "A very simple tower defense game to experiment with",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RefusesNames/TowerDefense.git"
+  },
+  "author": "Jerome Reinlaender",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RefusesNames/TowerDefense/issues"
+  },
+  "homepage": "https://github.com/RefusesNames/TowerDefense#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "reload": "^3.0.4",
+    "stylelint": "^13.2.1"
+  },
+  "dependencies": {
+    "sass": "^1.26.3",
+    "three": "^0.114.0",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.0"
+  }
+}
