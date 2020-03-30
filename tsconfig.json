@@ -1,0 +1,9 @@
+{
+	"compilerOptions": {
+		"module": "ES2015",
+		"sourceMap": true,
+		"outDir": "dist",
+		"moduleResolution": "Node"
+	},
+	"include": [ "typescript/**/*.ts" ]
+}
