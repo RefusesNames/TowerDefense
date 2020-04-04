@@ -1,9 +1,13 @@
 {
 	"compilerOptions": {
-		"module": "ES2015",
+		"strict": true,
+		"module": "ES6",
 		"sourceMap": true,
+		"rootDir": "typescript",
 		"outDir": "dist",
 		"moduleResolution": "Node"
 	},
-	"include": [ "typescript/**/*.ts" ]
+	"compileOnSave": true,
+	"include": [ "typescript/**/*.ts" ],
+	"exclude": [ "node_modules" ]
 }
