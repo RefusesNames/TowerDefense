@@ -25,5 +25,7 @@ module.exports = {
 		"dist/"
 	],
 	"rules": {
+		"no-tabs": "off",
+		"indent" : [ "error", "tab" ]
 	}
 };
