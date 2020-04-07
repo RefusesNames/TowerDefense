@@ -12,6 +12,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const geometry = new THREE.BoxGeometry();
+geometry.translate(0, 0.5, 0);
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
@@ -20,6 +21,10 @@ const controls = new OrbitControls(camera, renderer.domElement);
 
 camera.position.z = 5;
 controls.update();
+
+const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0));
+const planeHelper = new THREE.PlaneHelper(plane, 100, 0xffff00);
+scene.add(planeHelper);
 
 function animate(): void {
 	requestAnimationFrame(animate);
