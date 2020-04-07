@@ -1,6 +1,7 @@
 import '../scss/style.scss';
 
 import * as THREE from 'three';
+import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls';
 
 const scene = new THREE.Scene();
 
@@ -15,7 +16,10 @@ const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
+const controls = new OrbitControls(camera, renderer.domElement);
+
 camera.position.z = 5;
+controls.update();
 
 function animate(): void {
 	requestAnimationFrame(animate);
