@@ -2,6 +2,7 @@ import '../scss/style.scss';
 
 import * as THREE from 'three';
 import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls';
+import Enemy from './enemy';
 
 const scene = new THREE.Scene();
 
@@ -11,11 +12,11 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const geometry = new THREE.BoxGeometry();
-geometry.translate(0, 0.5, 0);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+const enemy = new Enemy(0, 0);
+scene.add(enemy.getObject3D());
+
+const enemy2 = new Enemy(10, 0);
+scene.add(enemy2.getObject3D());
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
