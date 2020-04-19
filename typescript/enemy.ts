@@ -9,26 +9,47 @@ class Enemy {
 
 	private readonly position = new THREE.Vector2(0, 0);
 
-	private readonly matrix = new THREE.Matrix4();
+	// speed in units per millisecond
+	private readonly SPEED = 0.001;
+
+	private path: THREE.Vector2[] = [];
+
+	private nextPathElementIndex = 0;
 
 	constructor(x: number, y: number) {
-		this.setPosition(x, y);
-		this.mesh.applyMatrix4(this.matrix);
+		this.translate(new THREE.Vector2(x, y));
 	}
 
-	public setPosition(x: number, y: number): void {
-		this.position.x = x;
-		this.position.y = y;
+	private translate(translation: THREE.Vector2): void {
+		this.position.add(translation);
 
-		this.updateMatrix();
-	}
-
-	private updateMatrix(): void {
-		this.matrix.setPosition(new THREE.Vector3(this.position.x, this.position.y, 0));
+		const transformation = new THREE.Matrix4();
+		transformation.identity();
+		transformation.setPosition(translation.x, 0, translation.y);
+		this.mesh.applyMatrix4(transformation);
 	}
 
 	public getObject3D(): THREE.Object3D {
 		return this.mesh;
+	}
+
+	public setPath(path: THREE.Vector2[]): void {
+		this.path = path;
+		this.nextPathElementIndex = 0;
+	}
+
+	public move(milliSecElapsed: number): void {
+		if (milliSecElapsed === 0 || this.nextPathElementIndex === this.path.length) {
+			return;
+		}
+
+		const direction = this.path[this.nextPathElementIndex].clone().sub(this.position).normalize();
+		const distanceMoved = milliSecElapsed * this.SPEED;
+
+		this.translate(direction.multiplyScalar(distanceMoved));
+		if (this.position.distanceTo(this.path[this.nextPathElementIndex]) < 1.0e-3) {
+			this.nextPathElementIndex += 1;
+		}
 	}
 }
 

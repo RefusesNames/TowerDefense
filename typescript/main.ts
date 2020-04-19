@@ -14,6 +14,13 @@ document.body.appendChild(renderer.domElement);
 
 const enemy = new Enemy(0, 0);
 scene.add(enemy.getObject3D());
+enemy.setPath([
+	new THREE.Vector2(0, 0),
+	new THREE.Vector2(10, 0),
+	new THREE.Vector2(10, 10),
+	new THREE.Vector2(0, 10),
+	new THREE.Vector2(0, 0),
+]);
 
 const enemy2 = new Enemy(10, 0);
 scene.add(enemy2.getObject3D());
@@ -27,8 +34,16 @@ const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0));
 const planeHelper = new THREE.PlaneHelper(plane, 100, 0xffff00);
 scene.add(planeHelper);
 
+let lastTime = Date.now();
+
 function animate(): void {
 	requestAnimationFrame(animate);
+
+	const currentTime = Date.now();
+	const timeElapsed = currentTime - lastTime;
+
+	enemy.move(timeElapsed);
+	lastTime = currentTime;
 	renderer.render(scene, camera);
 }
 animate();
