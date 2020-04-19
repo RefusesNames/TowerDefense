@@ -10,7 +10,7 @@ class Enemy {
 	private readonly position = new THREE.Vector2(0, 0);
 
 	// speed in units per millisecond
-	private readonly SPEED = 0.001;
+	private readonly SPEED = 0.01;
 
 	private path: THREE.Vector2[] = [];
 
@@ -43,13 +43,17 @@ class Enemy {
 			return;
 		}
 
+		const distanceToNext = this.position.distanceTo(this.path[this.nextPathElementIndex]);
+
+		if (distanceToNext < 1.0e-3) {
+			this.nextPathElementIndex += 1;
+			return;
+		}
+
 		const direction = this.path[this.nextPathElementIndex].clone().sub(this.position).normalize();
-		const distanceMoved = milliSecElapsed * this.SPEED;
+		const distanceMoved = Math.min(milliSecElapsed * this.SPEED, distanceToNext);
 
 		this.translate(direction.multiplyScalar(distanceMoved));
-		if (this.position.distanceTo(this.path[this.nextPathElementIndex]) < 1.0e-3) {
-			this.nextPathElementIndex += 1;
-		}
 	}
 }
 
