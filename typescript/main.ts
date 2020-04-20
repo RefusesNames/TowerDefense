@@ -2,7 +2,7 @@ import '../scss/style.scss';
 
 import * as THREE from 'three';
 import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls';
-import Enemy from './enemy';
+import Game from './game';
 
 const scene = new THREE.Scene();
 
@@ -11,19 +11,6 @@ const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerH
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-
-const enemy = new Enemy(0, 0);
-scene.add(enemy.getObject3D());
-enemy.setPath([
-	new THREE.Vector2(0, 0),
-	new THREE.Vector2(10, 0),
-	new THREE.Vector2(10, 10),
-	new THREE.Vector2(0, 10),
-	new THREE.Vector2(0, 0),
-]);
-
-const enemy2 = new Enemy(10, 0);
-scene.add(enemy2.getObject3D());
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -34,6 +21,8 @@ const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0));
 const planeHelper = new THREE.PlaneHelper(plane, 100, 0xffff00);
 scene.add(planeHelper);
 
+const game = new Game(scene);
+
 let lastTime = Date.now();
 
 function animate(): void {
@@ -42,7 +31,8 @@ function animate(): void {
 	const currentTime = Date.now();
 	const timeElapsed = currentTime - lastTime;
 
-	enemy.move(timeElapsed);
+	game.doStep(timeElapsed);
+
 	lastTime = currentTime;
 	renderer.render(scene, camera);
 }

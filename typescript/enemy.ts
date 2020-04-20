@@ -16,8 +16,10 @@ class Enemy {
 
 	private nextPathElementIndex = 0;
 
-	constructor(x: number, y: number) {
-		this.translate(new THREE.Vector2(x, y));
+	private alive = true;
+
+	constructor(position: THREE.Vector2) {
+		this.translate(position);
 	}
 
 	private translate(translation: THREE.Vector2): void {
@@ -38,14 +40,20 @@ class Enemy {
 		this.nextPathElementIndex = 0;
 	}
 
+	public die(): void {
+		this.alive = false;
+	}
+
 	public move(milliSecElapsed: number): void {
-		if (milliSecElapsed === 0 || this.nextPathElementIndex === this.path.length) {
+		if (this.alive === false
+			|| milliSecElapsed === 0
+			|| this.nextPathElementIndex === this.path.length) {
 			return;
 		}
 
 		const distanceToNext = this.position.distanceTo(this.path[this.nextPathElementIndex]);
 
-		if (distanceToNext < 1.0e-3) {
+		if (this.isAt(this.path[this.nextPathElementIndex])) {
 			this.nextPathElementIndex += 1;
 			return;
 		}
@@ -54,6 +62,14 @@ class Enemy {
 		const distanceMoved = Math.min(milliSecElapsed * this.SPEED, distanceToNext);
 
 		this.translate(direction.multiplyScalar(distanceMoved));
+	}
+
+	public isAt(position: THREE.Vector2): boolean {
+		return this.position.distanceTo(position) < 1e-3;
+	}
+
+	public isAlive(): boolean {
+		return this.alive;
 	}
 }
 
