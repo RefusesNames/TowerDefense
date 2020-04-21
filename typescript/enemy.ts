@@ -3,9 +3,9 @@ import * as THREE from 'three';
 class Enemy {
 	private static readonly geometry = new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0);
 
-	private readonly color = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+	private readonly material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
-	private readonly mesh = new THREE.Mesh(Enemy.geometry, this.color);
+	private readonly mesh = new THREE.Mesh(Enemy.geometry, this.material);
 
 	private readonly position = new THREE.Vector2(0, 0);
 
@@ -66,6 +66,10 @@ class Enemy {
 
 	public isAt(position: THREE.Vector2): boolean {
 		return this.position.distanceTo(position) < 1e-3;
+	}
+
+	public getPosition(): THREE.Vector2 {
+		return this.position.clone();
 	}
 
 	public isAlive(): boolean {
