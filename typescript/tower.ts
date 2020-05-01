@@ -6,7 +6,7 @@ const RANGE = 10;
 const RELOAD_TIME_MILLI_SEC = 500;
 
 export default class Tower {
-	private static readonly geometry = new THREE.ConeGeometry(0.5, 1).translate(0, 0.5, 0);
+	public static readonly geometry = new THREE.ConeGeometry(0.5, 1).translate(0, 0.5, 0);
 
 	private readonly material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
@@ -61,5 +61,9 @@ export default class Tower {
 	public shoot(): Shot {
 		this.lastShotAt = Date.now();
 		return new Shot(this.position.clone(), this.currentTarget as Enemy);
+	}
+
+	public getPosition(): THREE.Vector2 {
+		return this.position;
 	}
 }

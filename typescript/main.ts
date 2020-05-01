@@ -8,20 +8,26 @@ const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({
+	antialias: true,
+});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
-camera.position.z = 5;
+camera.position.y = 150;
 controls.update();
 
-const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0));
-const planeHelper = new THREE.PlaneHelper(plane, 100, 0xffff00);
-scene.add(planeHelper);
+const gridHelper = new THREE.GridHelper(100, 100);
+scene.add(gridHelper);
 
-const game = new Game(scene);
+const game = new Game(
+	scene,
+	renderer.domElement,
+	gridHelper,
+	camera,
+);
 
 let lastTime = Date.now();
 
