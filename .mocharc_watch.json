@@ -1,0 +1,8 @@
+{
+	"extends": ".mocharc.json",
+	"watch": true,
+	"watch-files": [
+		"assets/ts/**/*.ts",
+		"test/**/*.ts"
+	]
+}
