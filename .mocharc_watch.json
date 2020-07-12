@@ -2,7 +2,7 @@
 	"extends": ".mocharc.json",
 	"watch": true,
 	"watch-files": [
-		"assets/ts/**/*.ts",
+		"typescript/**/*.ts",
 		"test/**/*.ts"
 	]
 }
