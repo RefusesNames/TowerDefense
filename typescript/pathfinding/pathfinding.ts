@@ -41,25 +41,32 @@ export class MooreNeighborhood extends Neighborhood {
 
 }
 
-export interface Map {
+export interface Map<T> {
 	getNeighborhood(mid: Coordinate, neighborhood: Neighborhood): Array<Coordinate>;
 	setObstacle(coordinate: Coordinate, obstacle: boolean): void;
 	setFree(coordinate: Coordinate, free: boolean): void;
 	isFree(coordinate: Coordinate): boolean;
+	setData(coordinate: Coordinate, data: T): void;
+	getData(coordinate: Coordinate): T;
 };
 
-export class ArrayMap implements Map {
+interface Cell<T> {
+	isFree: boolean,
+	data: T
+}
 
-	private fieldIsFree: boolean[][];
+export class ArrayMap<T> implements Map<T> {
 
-	constructor(width: number, height: number) {
-		this.fieldIsFree = [];
+	private field: Cell<T>[][];
+
+	constructor(width: number, height: number, defaultData: T) {
+		this.field = [];
 		for(let x = 0; x < width; ++x) {
-			let column: boolean[] = [];
+			let column: Cell<T>[] = [];
 			for(let y = 0; y < height; ++y) {
-				column.push(true);
+				column.push({ isFree: true, data: defaultData });
 			}
-			this.fieldIsFree.push(column);
+			this.field.push(column);
 		}
 	}
 
@@ -68,22 +75,28 @@ export class ArrayMap implements Map {
 			.getNeighbors(mid)
 			.filter( (coordinate) => 
 				coordinate.x >= 0 &&
-				coordinate.x < this.fieldIsFree.length &&
+				coordinate.x < this.field.length &&
 				coordinate.y >= 0 &&
-				coordinate.y < this.fieldIsFree[0].length
+				coordinate.y < this.field[0].length
 			 );
 	}
 
 	setObstacle(coordinate: Coordinate, obstacle: boolean): void {
-		this.fieldIsFree[coordinate.x][coordinate.y] = !obstacle;
+		this.field[coordinate.x][coordinate.y].isFree = !obstacle;
 	}
 
 	setFree(coordinate: Coordinate, free: boolean): void {
-		this.fieldIsFree[coordinate.x][coordinate.y] = free;
+		this.field[coordinate.x][coordinate.y].isFree = free;
 	}
 
 	isFree(coordinate: Coordinate): boolean {
-		return this.fieldIsFree[coordinate.x][coordinate.y];
+		return this.field[coordinate.x][coordinate.y].isFree;
 	}
 
+	setData(coordinate: Coordinate, data: T): void{
+		this.field[coordinate.x][coordinate.y].data = data;
+	}
+	getData(coordinate: Coordinate): T {
+		return this.field[coordinate.x][coordinate.y].data;
+	}
 };
