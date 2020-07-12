@@ -4,5 +4,6 @@
 	"watch-files": [
 		"typescript/**/*.ts",
 		"test/**/*.ts"
-	]
+	],
+	"reporter": "min"
 }
