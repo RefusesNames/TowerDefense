@@ -5,6 +5,9 @@ const expect = chai.expect;
 import {
 	VonNeumannNeighborhood,
 	MooreNeighborhood,
+} from '../../typescript/pathfinding/neighborhood';
+
+import {
 	Coordinate
 } from '../../typescript/pathfinding/pathfinding';
 
