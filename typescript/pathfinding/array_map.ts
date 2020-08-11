@@ -22,7 +22,7 @@ export class ArrayMap<T> implements Map<T> {
 		for(let x = 0; x < width; ++x) {
 			let column: Cell<T>[] = [];
 			for(let y = 0; y < height; ++y) {
-				column.push({ isFree: true, data: defaultData });
+				column.push({ isFree: true, data: { ...defaultData } });
 			}
 			this.field.push(column);
 		}

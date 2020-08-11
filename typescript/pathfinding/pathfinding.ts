@@ -39,6 +39,19 @@ export class Coordinate {
 		return new Coordinate(from.x + 1, from.y - 1);
 	}
 
+	public equals(other: Object): boolean {
+		if (typeof(other) !== typeof(this)) {
+			return false;
+		} else {
+			const otherCoordinate = <Coordinate> other;
+			return this.x === otherCoordinate.x && this.y === otherCoordinate.y;
+		}
+	}
+
+	public distanceTo(other: Coordinate): number {
+		return Math.sqrt((this.x - other.x) * (this.x - other.x) + (this.y - other.y) * (this.y - other.y));
+	}
+
 }
 
 export interface PathFindingAlgorithm{
