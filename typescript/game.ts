@@ -2,7 +2,10 @@ import * as THREE from 'three';
 import Enemy from './enemy';
 import Tower from './tower';
 import Shot from './shot';
-import BuildMode from './buildMode';
+import BuildMode from './buildmode';
+import { PathFindingAlgorithm } from './pathfinding/pathfinding';
+import { Dijkstra } from './pathfinding/dijkstra';
+import { VonNeumannNeighborhood } from './pathfinding/neighborhood';
 
 const ENEMIES_PER_WAVE = 10;
 const ENEMY_STARTING_POSITION = new THREE.Vector2(-50, -50);
@@ -25,7 +28,6 @@ export default class Game {
 		this.gameLost = false;
 		this.enemiesOfWaveSpawned = 0;
 		this.lastEnemySpawnedAt = -1;
-		this.spawnEnemy();
 
 		this.buildMode = new BuildMode(
 			this.scene,
@@ -34,6 +36,8 @@ export default class Game {
 			plane,
 			camera,
 		);
+		this.pathfinding = new Dijkstra(this.buildMode.obstacleMap, new VonNeumannNeighborhood());
+		this.spawnEnemy();
 
 		const tower = new Tower(new THREE.Vector2(5, 5));
 		this.towers.push(tower);
@@ -58,12 +62,16 @@ export default class Game {
 
 	private buildMode: BuildMode;
 
+	private pathfinding: PathFindingAlgorithm;
+
 	private spawnEnemy(): void {
 		const enemy = new Enemy(ENEMY_STARTING_POSITION);
-		enemy.setPath([
-			ENEMY_STARTING_POSITION,
-			PLAYER_BASE_POSITION,
-		]);
+		const coordinatePath = this.pathfinding.getPath(ENEMY_STARTING_POSITION, PLAYER_BASE_POSITION);
+		enemy.setPath(coordinatePath.map(coordinate => new THREE.Vector2(coordinate.x, coordinate.y)));
+		//enemy.setPath([
+			//ENEMY_STARTING_POSITION,
+			//PLAYER_BASE_POSITION,
+		//]);
 		this.scene.add(enemy.getObject3D());
 		this.enemies[this.enemiesOfWaveSpawned] = enemy;
 		this.enemiesOfWaveSpawned += 1;

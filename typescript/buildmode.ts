@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 import Tower from './tower';
+import { Map, Coordinate } from './pathfinding/pathfinding';
+import { ArrayMap } from './pathfinding/array_map';
+import { CellData } from './pathfinding/dijkstra';
 
 export default class BuildMode {
 	constructor(
@@ -15,6 +18,11 @@ export default class BuildMode {
 		this.camera = camera;
 		this.canvas = canvas;
 		BuildMode.towerPreview.visible = false;
+		this.obstacleMap = new ArrayMap<CellData>(100, 100, {
+			distanceTraveled : 0,
+			previous: new Coordinate(0, 0),
+			visited: false
+		});
 
 		this.scene.add(BuildMode.towerPreview);
 
@@ -25,6 +33,8 @@ export default class BuildMode {
 	private readonly scene: THREE.Scene;
 
 	private readonly towers: Array<Tower>;
+
+	public readonly obstacleMap : Map<CellData>;
 
 	private readonly plane: THREE.Object3D;
 
@@ -64,6 +74,7 @@ export default class BuildMode {
 
 		if (!towerAlreadyThere) {
 			const newTower = new Tower(roundedPosition);
+			this.obstacleMap.setObstacle(new Coordinate(roundedPosition.x, roundedPosition.y), true);
 
 			this.towers.push(newTower);
 			this.scene.add(newTower.getObject3D());

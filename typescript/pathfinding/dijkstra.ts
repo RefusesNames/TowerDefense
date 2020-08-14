@@ -4,7 +4,6 @@ import {
 	Neighborhood,
 	Map
 } from './pathfinding';
-import { MeshDistanceMaterial } from 'three';
 
 export interface CellData {
   distanceTraveled: number,
