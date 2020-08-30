@@ -8,7 +8,8 @@ import {
 export interface CellData {
   distanceTraveled: number,
 	previous: Coordinate,
-	visited: boolean
+	visited: boolean,
+	toVisit: boolean
 }
 
 export class Dijkstra implements PathFindingAlgorithm {
@@ -55,10 +56,15 @@ export class Dijkstra implements PathFindingAlgorithm {
 			this.map.setData(neighbor, data);
 		});
 
-		;
+		const newToVisit = unvisitedNeighbors.filter(neighbor => !this.map.getData(neighbor).toVisit);
+		newToVisit.forEach(coordinate => this.map.getData(coordinate).toVisit = true)
+
+
 		this.coordinatesToVisit.push(
-			...unvisitedNeighbors.filter(neighbor => !this.coordinatesToVisit.some(coordinateToVisit => neighbor.distanceTo(coordinateToVisit) === 0))
+			... newToVisit
 		);
+
+		console.log(`To visit: ${this.coordinatesToVisit.length}`);
 
 		const nextCoordinate = this.coordinatesToVisit.shift();
 		if (nextCoordinate) {

@@ -16,10 +16,15 @@ document.body.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
+camera.position.x = 50;
 camera.position.y = 150;
+camera.position.z = 50;
 controls.update();
 
 const gridHelper = new THREE.GridHelper(100, 100);
+const moveGridTransformation = new THREE.Matrix4();
+moveGridTransformation.makeTranslation(50, 0, 50);
+gridHelper.applyMatrix4(moveGridTransformation)
 scene.add(gridHelper);
 
 const game = new Game(

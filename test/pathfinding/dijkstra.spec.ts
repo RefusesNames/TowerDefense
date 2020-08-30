@@ -17,6 +17,7 @@ describe(`The Dijkstra pathfinding algorithm`, () => {
 			distanceTraveled: 0,
 			previous: new Coordinate(0,0),
 			visited: false,
+			toVisit: false
 		});
 		dijkstra = new Dijkstra(map, new VonNeumannNeighborhood); 
 	});

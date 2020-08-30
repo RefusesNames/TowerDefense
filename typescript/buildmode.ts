@@ -21,7 +21,8 @@ export default class BuildMode {
 		this.obstacleMap = new ArrayMap<CellData>(100, 100, {
 			distanceTraveled : 0,
 			previous: new Coordinate(0, 0),
-			visited: false
+			visited: false,
+			toVisit: false
 		});
 
 		this.scene.add(BuildMode.towerPreview);

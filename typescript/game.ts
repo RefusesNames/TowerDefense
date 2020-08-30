@@ -8,8 +8,8 @@ import { Dijkstra } from './pathfinding/dijkstra';
 import { VonNeumannNeighborhood } from './pathfinding/neighborhood';
 
 const ENEMIES_PER_WAVE = 10;
-const ENEMY_STARTING_POSITION = new THREE.Vector2(-50, -50);
-const PLAYER_BASE_POSITION = new THREE.Vector2(50, 50);
+const ENEMY_STARTING_POSITION = new THREE.Vector2(0, 0);
+const PLAYER_BASE_POSITION = new THREE.Vector2(100, 100);
 const PLAYER_STARTING_HP = 20;
 const SPAWN_PAUSE_MILLISEC = 1000;
 
@@ -66,8 +66,9 @@ export default class Game {
 
 	private spawnEnemy(): void {
 		const enemy = new Enemy(ENEMY_STARTING_POSITION);
-		const coordinatePath = this.pathfinding.getPath(ENEMY_STARTING_POSITION, PLAYER_BASE_POSITION);
-		enemy.setPath(coordinatePath.map(coordinate => new THREE.Vector2(coordinate.x, coordinate.y)));
+		const coordinatePath = this.pathfinding.getPath(ENEMY_STARTING_POSITION, PLAYER_BASE_POSITION)
+			.map(coordinate => new THREE.Vector2(coordinate.x, coordinate.y));
+		enemy.setPath(coordinatePath);
 		//enemy.setPath([
 			//ENEMY_STARTING_POSITION,
 			//PLAYER_BASE_POSITION,
